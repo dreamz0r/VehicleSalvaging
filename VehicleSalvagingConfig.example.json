@@ -1,0 +1,15 @@
+{
+    "CooldownSeconds": 7200,
+    "SparkPlugChance": 0.15,
+    "RadiatorChance": 0.15,
+    "CarBatteryChance": 0.15,
+    "TruckBatteryChance": 0.15,
+    "GlowPlugChance": 0.15,
+    "BestPartHealthLevel": 0,
+    "WorstPartHealthLevel": 4,
+    "EnableSparkPlugSalvage": true,
+    "EnableRadiatorSalvage": true,
+    "EnableCarBatterySalvage": true,
+    "EnableTruckBatterySalvage": true,
+    "EnableGlowPlugSalvage": true
+}

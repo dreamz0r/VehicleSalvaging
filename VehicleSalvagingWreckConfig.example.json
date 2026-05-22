@@ -1,0 +1,27 @@
+{
+    "SparkPlugWrecks": [
+        "land_wreck_hb01_aban1_blue",
+        "land_wreck_sed01_aban1_black",
+        "land_wreck_volha_police"
+    ],
+    "RadiatorWrecks": [
+        "land_wreck_hb01_aban1_blue",
+        "land_wreck_offroad02_aban1",
+        "land_wreck_truck01_aban1_blue"
+    ],
+    "CarBatteryWrecks": [
+        "land_wreck_hb01_aban1_blue",
+        "land_wreck_offroad02_aban1",
+        "land_wreck_van01_aban1_blue"
+    ],
+    "TruckBatteryWrecks": [
+        "land_wreck_ikarus",
+        "land_wreck_truck01_aban1_blue",
+        "land_wreck_v3s_de"
+    ],
+    "GlowPlugWrecks": [
+        "land_wreck_offroad02_aban1",
+        "land_wreck_truck01_aban1_blue",
+        "land_wreck_van01_aban1_blue"
+    ]
+}
