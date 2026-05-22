@@ -1,6 +1,7 @@
 class ActionVehicleSalvagingBase : ActionContinuousBase
 {
     const float TOOL_DAMAGE_FRACTION = 0.10;
+    protected int m_LastAlreadySearchedMessageTime;
 
     void ActionVehicleSalvagingBase()
     {
@@ -19,6 +20,28 @@ class ActionVehicleSalvagingBase : ActionContinuousBase
             return false;
 
         return ActionConditionContinue(action_data);
+    }
+
+    void SendAlreadySearchedMessage(PlayerBase player, string message)
+    {
+        if (!player)
+            return;
+
+        int now = GetGame().GetTime();
+        if (now - m_LastAlreadySearchedMessageTime < 2000)
+            return;
+
+        m_LastAlreadySearchedMessageTime = now;
+
+        if (GetGame().IsServer())
+        {
+            Param1<string> msg = new Param1<string>(message);
+            GetGame().RPCSingleParam(player, ERPCs.RPC_USER_ACTION_MESSAGE, msg, true, player.GetIdentity());
+        }
+        else
+        {
+            player.MessageAction(message);
+        }
     }
 
     void DamageSalvageTool(ItemBase tool)

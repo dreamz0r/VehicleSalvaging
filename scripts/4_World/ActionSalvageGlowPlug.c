@@ -43,10 +43,16 @@ class ActionSalvageGlowPlug : ActionVehicleSalvagingBase
 
         Object targetObject = GetTargetWreckObject(target);
 
-        if (targetObject && IsDieselVehicleWreck(targetObject.GetType()))
-            return true;
+        if (!targetObject || !IsDieselVehicleWreck(targetObject.GetType()))
+            return false;
 
-        return false;
+        if (IsWreckOnCooldown(target))
+        {
+            SendAlreadySearchedMessage(player, "This wreck has already been searched for a glow plug.");
+            return false;
+        }
+
+        return true;
     }
 
     Object GetTargetWreckObject(ActionTarget target)
@@ -90,7 +96,7 @@ class ActionSalvageGlowPlug : ActionVehicleSalvagingBase
 
         if (IsWreckOnCooldown(action_data.m_Target))
         {
-            SendMessageToClient(player, "This wreck has already had its glow plug searched recently.");
+            SendMessageToClient(player, "This wreck has already been searched for a glow plug.");
             return;
         }
 

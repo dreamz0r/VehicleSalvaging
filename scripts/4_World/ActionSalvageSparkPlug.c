@@ -43,10 +43,16 @@ class ActionSalvageSparkPlug : ActionVehicleSalvagingBase
 
         Object targetObject = GetTargetWreckObject(target);
 
-        if (targetObject && IsVanillaVehicleWreck(targetObject.GetType()))
-            return true;
+        if (!targetObject || !IsVanillaVehicleWreck(targetObject.GetType()))
+            return false;
 
-        return false;
+        if (IsWreckOnCooldown(target))
+        {
+            SendAlreadySearchedMessage(player, "This wreck has already been searched for a spark plug.");
+            return false;
+        }
+
+        return true;
     }
 
     Object GetTargetWreckObject(ActionTarget target)
@@ -90,7 +96,7 @@ class ActionSalvageSparkPlug : ActionVehicleSalvagingBase
 
         if (IsWreckOnCooldown(action_data.m_Target))
         {
-            SendMessageToClient(player, "This wreck has already had its spark plug searched recently.");
+            SendMessageToClient(player, "This wreck has already been searched for a spark plug.");
             return;
         }
 

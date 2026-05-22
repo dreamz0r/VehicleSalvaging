@@ -294,7 +294,7 @@ If an action does not appear:
 - Confirm the tool has `AddAction(...)` in `VehicleSalvagingTools.c`.
 - Confirm the target wreck classname exists in that action script's wreck helper.
 - Confirm the player is holding the correct non-ruined tool.
-- If the wreck is already on cooldown for that part type, the action can still be started and the server will send an "already searched recently" message.
+- If the wreck is already on cooldown for that part type, the action is blocked before the animation starts and the player receives an already-searched message.
 
 If the action appears but no item is created:
 

@@ -43,10 +43,16 @@ class ActionSalvageTruckBattery : ActionVehicleSalvagingBase
 
         Object targetObject = GetTargetWreckObject(target);
 
-        if (targetObject && IsHeavyVehicleWreck(targetObject.GetType()))
-            return true;
+        if (!targetObject || !IsHeavyVehicleWreck(targetObject.GetType()))
+            return false;
 
-        return false;
+        if (IsWreckOnCooldown(target))
+        {
+            SendAlreadySearchedMessage(player, "This wreck has already been searched for a truck battery.");
+            return false;
+        }
+
+        return true;
     }
 
     Object GetTargetWreckObject(ActionTarget target)
@@ -90,7 +96,7 @@ class ActionSalvageTruckBattery : ActionVehicleSalvagingBase
 
         if (IsWreckOnCooldown(action_data.m_Target))
         {
-            SendMessageToClient(player, "This wreck has already had its truck battery searched recently.");
+            SendMessageToClient(player, "This wreck has already been searched for a truck battery.");
             return;
         }
 
