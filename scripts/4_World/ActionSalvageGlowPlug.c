@@ -17,6 +17,11 @@ class ActionSalvageGlowPlug : ActionVehicleSalvagingBase
         m_Text = "Salvage glow plug";
     }
 
+    override string GetSalvageItemType()
+    {
+        return VehicleSalvagingConfig.Get().GlowPlugItem;
+    }
+
     override void CreateConditionComponents()
     {
         m_ConditionItem = new CCINonRuined;
@@ -48,7 +53,7 @@ class ActionSalvageGlowPlug : ActionVehicleSalvagingBase
 
         if (GetGame().IsServer() && IsWreckOnCooldown(target))
         {
-            SendAlreadySearchedMessage(player, "This wreck has already been searched for a glow plug.");
+            SendAlreadySearchedMessage(player, GetAlreadySearchedMessage());
             return false;
         }
 
@@ -96,7 +101,7 @@ class ActionSalvageGlowPlug : ActionVehicleSalvagingBase
 
         if (IsWreckOnCooldown(action_data.m_Target))
         {
-            SendMessageToClient(player, "This wreck has already been searched for a glow plug.");
+            SendMessageToClient(player, GetAlreadySearchedMessage());
             return;
         }
 
@@ -118,11 +123,11 @@ class ActionSalvageGlowPlug : ActionVehicleSalvagingBase
             if (glowPlug)
             {
                 ApplyRandomGlowPlugHealth(glowPlug);
-                SendMessageToClient(player, "You salvaged a glow plug from the wreck.");
+                SendMessageToClient(player, GetSalvagedMessage());
             }
             else
             {
-                SendMessageToClient(player, "You found a glow plug, but it could not be created.");
+                SendMessageToClient(player, GetCreateFailedMessage());
             }
         }
         else

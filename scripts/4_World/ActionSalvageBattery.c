@@ -17,6 +17,11 @@ class ActionSalvageBattery : ActionVehicleSalvagingBase
         m_Text = "Salvage car battery";
     }
 
+    override string GetSalvageItemType()
+    {
+        return VehicleSalvagingConfig.Get().CarBatteryItem;
+    }
+
     override void CreateConditionComponents()
     {
         m_ConditionItem = new CCINonRuined;
@@ -48,7 +53,7 @@ class ActionSalvageBattery : ActionVehicleSalvagingBase
 
         if (GetGame().IsServer() && IsWreckOnCooldown(target))
         {
-            SendAlreadySearchedMessage(player, "This wreck has already been searched for a car battery.");
+            SendAlreadySearchedMessage(player, GetAlreadySearchedMessage());
             return false;
         }
 
@@ -96,7 +101,7 @@ class ActionSalvageBattery : ActionVehicleSalvagingBase
 
         if (IsWreckOnCooldown(action_data.m_Target))
         {
-            SendMessageToClient(player, "This wreck has already been searched for a car battery.");
+            SendMessageToClient(player, GetAlreadySearchedMessage());
             return;
         }
 
@@ -118,11 +123,11 @@ class ActionSalvageBattery : ActionVehicleSalvagingBase
             if (battery)
             {
                 ApplyRandomBatteryHealth(battery);
-                SendMessageToClient(player, "You salvaged a car battery from the wreck.");
+                SendMessageToClient(player, GetSalvagedMessage());
             }
             else
             {
-                SendMessageToClient(player, "You found a car battery, but it could not be created.");
+                SendMessageToClient(player, GetCreateFailedMessage());
             }
         }
         else

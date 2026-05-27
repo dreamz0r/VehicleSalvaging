@@ -211,6 +211,22 @@ class VehicleSalvagingConfig
         return item.IsKindOf(toolClassName);
     }
 
+    static string GetItemDisplayName(string itemType)
+    {
+        if (itemType == "")
+            return itemType;
+
+        string displayName;
+        GetGame().ConfigGetText("CfgVehicles " + itemType + " displayName", displayName);
+
+        displayName.TrimInPlace();
+
+        if (displayName == "")
+            return itemType;
+
+        return Widget.TranslateString(displayName);
+    }
+
     protected static float ClampChance(float chance)
     {
         if (chance < 0.0)

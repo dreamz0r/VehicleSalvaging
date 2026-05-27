@@ -17,6 +17,11 @@ class ActionSalvageHydraulicHoses : ActionVehicleSalvagingBase
         m_Text = "Salvage hydraulic hoses";
     }
 
+    override string GetSalvageItemType()
+    {
+        return VehicleSalvagingConfig.Get().HydraulicHosesItem;
+    }
+
     override void CreateConditionComponents()
     {
         m_ConditionItem = new CCINonRuined;
@@ -48,7 +53,7 @@ class ActionSalvageHydraulicHoses : ActionVehicleSalvagingBase
 
         if (GetGame().IsServer() && IsWreckOnCooldown(target))
         {
-            SendAlreadySearchedMessage(player, "This wreck has already been searched for hydraulic hoses.");
+            SendAlreadySearchedMessage(player, GetAlreadySearchedMessage());
             return false;
         }
 
@@ -96,7 +101,7 @@ class ActionSalvageHydraulicHoses : ActionVehicleSalvagingBase
 
         if (IsWreckOnCooldown(action_data.m_Target))
         {
-            SendMessageToClient(player, "This wreck has already been searched for hydraulic hoses.");
+            SendMessageToClient(player, GetAlreadySearchedMessage());
             return;
         }
 
@@ -117,11 +122,11 @@ class ActionSalvageHydraulicHoses : ActionVehicleSalvagingBase
             if (hoses)
             {
                 ApplyRandomHosesHealth(hoses);
-                SendMessageToClient(player, "You salvaged hydraulic hoses from the wreck.");
+                SendMessageToClient(player, GetSalvagedMessage());
             }
             else
             {
-                SendMessageToClient(player, "You found hydraulic hoses, but they could not be created.");
+                SendMessageToClient(player, GetCreateFailedMessage());
             }
         }
         else

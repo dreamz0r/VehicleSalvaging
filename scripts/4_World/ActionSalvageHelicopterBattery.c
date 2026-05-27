@@ -17,6 +17,11 @@ class ActionSalvageHelicopterBattery : ActionVehicleSalvagingBase
         m_Text = "Salvage helicopter battery";
     }
 
+    override string GetSalvageItemType()
+    {
+        return VehicleSalvagingConfig.Get().HelicopterBatteryItem;
+    }
+
     override void CreateConditionComponents()
     {
         m_ConditionItem = new CCINonRuined;
@@ -48,7 +53,7 @@ class ActionSalvageHelicopterBattery : ActionVehicleSalvagingBase
 
         if (GetGame().IsServer() && IsWreckOnCooldown(target))
         {
-            SendAlreadySearchedMessage(player, "This wreck has already been searched for a helicopter battery.");
+            SendAlreadySearchedMessage(player, GetAlreadySearchedMessage());
             return false;
         }
 
@@ -96,7 +101,7 @@ class ActionSalvageHelicopterBattery : ActionVehicleSalvagingBase
 
         if (IsWreckOnCooldown(action_data.m_Target))
         {
-            SendMessageToClient(player, "This wreck has already been searched for a helicopter battery.");
+            SendMessageToClient(player, GetAlreadySearchedMessage());
             return;
         }
 
@@ -117,11 +122,11 @@ class ActionSalvageHelicopterBattery : ActionVehicleSalvagingBase
             if (battery)
             {
                 ApplyRandomBatteryHealth(battery);
-                SendMessageToClient(player, "You salvaged a helicopter battery from the wreck.");
+                SendMessageToClient(player, GetSalvagedMessage());
             }
             else
             {
-                SendMessageToClient(player, "You found a helicopter battery, but it could not be created.");
+                SendMessageToClient(player, GetCreateFailedMessage());
             }
         }
         else

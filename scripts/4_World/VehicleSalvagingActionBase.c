@@ -8,6 +8,36 @@ class ActionVehicleSalvagingBase : ActionContinuousBase
         m_LockTargetOnUse = false;
     }
 
+    override string GetText()
+    {
+        return "Salvage " + GetSalvageItemDisplayName();
+    }
+
+    string GetSalvageItemType()
+    {
+        return "";
+    }
+
+    string GetSalvageItemDisplayName()
+    {
+        return VehicleSalvagingConfig.GetItemDisplayName(GetSalvageItemType());
+    }
+
+    string GetAlreadySearchedMessage()
+    {
+        return "This wreck has already been searched for " + GetSalvageItemDisplayName() + ".";
+    }
+
+    string GetSalvagedMessage()
+    {
+        return "You salvaged " + GetSalvageItemDisplayName() + " from the wreck.";
+    }
+
+    string GetCreateFailedMessage()
+    {
+        return "You found " + GetSalvageItemDisplayName() + ", but it could not be created.";
+    }
+
     override bool CanContinue(ActionData action_data)
     {
         if (!action_data || !action_data.m_Player)

@@ -17,6 +17,11 @@ class ActionSalvageSparkPlug : ActionVehicleSalvagingBase
         m_Text = "Salvage spark plug";
     }
 
+    override string GetSalvageItemType()
+    {
+        return VehicleSalvagingConfig.Get().SparkPlugItem;
+    }
+
     override void CreateConditionComponents()
     {
         m_ConditionItem = new CCINonRuined;
@@ -48,7 +53,7 @@ class ActionSalvageSparkPlug : ActionVehicleSalvagingBase
 
         if (GetGame().IsServer() && IsWreckOnCooldown(target))
         {
-            SendAlreadySearchedMessage(player, "This wreck has already been searched for a spark plug.");
+            SendAlreadySearchedMessage(player, GetAlreadySearchedMessage());
             return false;
         }
 
@@ -96,7 +101,7 @@ class ActionSalvageSparkPlug : ActionVehicleSalvagingBase
 
         if (IsWreckOnCooldown(action_data.m_Target))
         {
-            SendMessageToClient(player, "This wreck has already been searched for a spark plug.");
+            SendMessageToClient(player, GetAlreadySearchedMessage());
             return;
         }
 
@@ -118,11 +123,11 @@ class ActionSalvageSparkPlug : ActionVehicleSalvagingBase
             if (sparkPlug)
             {
                 ApplyRandomSparkPlugHealth(sparkPlug);
-                SendMessageToClient(player, "You salvaged a spark plug from the wreck.");
+                SendMessageToClient(player, GetSalvagedMessage());
             }
             else
             {
-                SendMessageToClient(player, "You found a spark plug, but it could not be created.");
+                SendMessageToClient(player, GetCreateFailedMessage());
             }
         }
         else

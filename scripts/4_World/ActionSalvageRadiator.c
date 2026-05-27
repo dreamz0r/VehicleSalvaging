@@ -17,6 +17,11 @@ class ActionSalvageRadiator : ActionVehicleSalvagingBase
         m_Text = "Salvage radiator";
     }
 
+    override string GetSalvageItemType()
+    {
+        return VehicleSalvagingConfig.Get().RadiatorItem;
+    }
+
     override void CreateConditionComponents()
     {
         m_ConditionItem = new CCINonRuined;
@@ -48,7 +53,7 @@ class ActionSalvageRadiator : ActionVehicleSalvagingBase
 
         if (GetGame().IsServer() && IsWreckOnCooldown(target))
         {
-            SendAlreadySearchedMessage(player, "This wreck has already been searched for a radiator.");
+            SendAlreadySearchedMessage(player, GetAlreadySearchedMessage());
             return false;
         }
 
@@ -96,7 +101,7 @@ class ActionSalvageRadiator : ActionVehicleSalvagingBase
 
         if (IsWreckOnCooldown(action_data.m_Target))
         {
-            SendMessageToClient(player, "This wreck has already been searched for a radiator.");
+            SendMessageToClient(player, GetAlreadySearchedMessage());
             return;
         }
 
@@ -118,11 +123,11 @@ class ActionSalvageRadiator : ActionVehicleSalvagingBase
             if (radiator)
             {
                 ApplyRandomRadiatorHealth(radiator);
-                SendMessageToClient(player, "You salvaged a radiator from the wreck.");
+                SendMessageToClient(player, GetSalvagedMessage());
             }
             else
             {
-                SendMessageToClient(player, "You found a radiator, but it could not be created.");
+                SendMessageToClient(player, GetCreateFailedMessage());
             }
         }
         else
