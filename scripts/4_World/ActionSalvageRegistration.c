@@ -8,5 +8,8 @@ modded class ActionConstructor
         actions.Insert(ActionSalvageBattery);
         actions.Insert(ActionSalvageTruckBattery);
         actions.Insert(ActionSalvageGlowPlug);
+        actions.Insert(ActionSalvageHelicopterBattery);
+        actions.Insert(ActionSalvageHydraulicHoses);
+        actions.Insert(ActionSalvageIgniterPlug);
     }
 }

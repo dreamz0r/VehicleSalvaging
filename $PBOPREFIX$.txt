@@ -1,0 +1,6 @@
+//<'VehicleSalvaging.pbo' properties via Mikero's dos tools, dll version 9.98>
+prefix=VehicleSalvaging;
+Mikero=DePbo.dll.9.98;
+version=26052216;
+//PboType=Arma Addon;
+//</properties>

@@ -5,11 +5,17 @@
     "CarBatteryChance": 0.15,
     "TruckBatteryChance": 0.15,
     "GlowPlugChance": 0.15,
+    "HelicopterBatteryChance": 0.15,
+    "HydraulicHosesChance": 0.15,
+    "IgniterPlugChance": 0.15,
     "BestPartHealthLevel": 0,
     "WorstPartHealthLevel": 4,
     "EnableSparkPlugSalvage": true,
     "EnableRadiatorSalvage": true,
     "EnableCarBatterySalvage": true,
     "EnableTruckBatterySalvage": true,
-    "EnableGlowPlugSalvage": true
+    "EnableGlowPlugSalvage": true,
+    "EnableHelicopterBatterySalvage": true,
+    "EnableHydraulicHosesSalvage": true,
+    "EnableIgniterPlugSalvage": true
 }

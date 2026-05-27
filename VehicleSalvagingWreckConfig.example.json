@@ -23,5 +23,29 @@
         "land_wreck_offroad02_aban1",
         "land_wreck_truck01_aban1_blue",
         "land_wreck_van01_aban1_blue"
+    ],
+    "HelicopterBatteryWrecks": [
+        "wreck_uh1y",
+        "wreck_uh1y_de",
+        "wreck_mi8",
+        "wreck_mi8_de",
+        "wreck_mi8_crashed",
+        "wreck_mi8_crashed_de"
+    ],
+    "HydraulicHosesWrecks": [
+        "wreck_uh1y",
+        "wreck_uh1y_de",
+        "wreck_mi8",
+        "wreck_mi8_de",
+        "wreck_mi8_crashed",
+        "wreck_mi8_crashed_de"
+    ],
+    "IgniterPlugWrecks": [
+        "wreck_uh1y",
+        "wreck_uh1y_de",
+        "wreck_mi8",
+        "wreck_mi8_de",
+        "wreck_mi8_crashed",
+        "wreck_mi8_crashed_de"
     ]
 }

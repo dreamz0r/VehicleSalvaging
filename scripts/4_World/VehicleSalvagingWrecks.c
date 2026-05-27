@@ -25,6 +25,21 @@ class VehicleSalvagingWrecks
         return WreckListContains(VehicleSalvagingWreckConfig.Get().TruckBatteryWrecks, objType);
     }
 
+    static bool IsHelicopterBatteryWreck(string objType)
+    {
+        return WreckListContains(VehicleSalvagingWreckConfig.Get().HelicopterBatteryWrecks, objType);
+    }
+
+    static bool IsHydraulicHosesWreck(string objType)
+    {
+        return WreckListContains(VehicleSalvagingWreckConfig.Get().HydraulicHosesWrecks, objType);
+    }
+
+    static bool IsIgniterPlugWreck(string objType)
+    {
+        return WreckListContains(VehicleSalvagingWreckConfig.Get().IgniterPlugWrecks, objType);
+    }
+
     protected static bool WreckListContains(array<string> wrecks, string objType)
     {
         if (!wrecks || objType == "")

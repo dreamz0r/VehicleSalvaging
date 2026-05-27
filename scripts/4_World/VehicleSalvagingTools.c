@@ -16,6 +16,7 @@ modded class Pliers
 
         AddAction(ActionSalvageBattery);
         AddAction(ActionSalvageTruckBattery);
+        AddAction(ActionSalvageHelicopterBattery);
     }
 }
 
@@ -27,5 +28,16 @@ modded class LugWrench
 
         AddAction(ActionSalvageGlowPlug);
         AddAction(ActionSalvageSparkPlug);
+        AddAction(ActionSalvageIgniterPlug);
+    }
+}
+
+modded class Wrench
+{
+    override void SetActions()
+    {
+        super.SetActions();
+
+        AddAction(ActionSalvageHydraulicHoses);
     }
 }

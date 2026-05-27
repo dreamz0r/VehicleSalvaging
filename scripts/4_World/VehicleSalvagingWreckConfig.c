@@ -5,6 +5,9 @@ class VehicleSalvagingWreckConfigData
     ref array<string> CarBatteryWrecks;
     ref array<string> TruckBatteryWrecks;
     ref array<string> GlowPlugWrecks;
+    ref array<string> HelicopterBatteryWrecks;
+    ref array<string> HydraulicHosesWrecks;
+    ref array<string> IgniterPlugWrecks;
 
     void VehicleSalvagingWreckConfigData()
     {
@@ -13,6 +16,9 @@ class VehicleSalvagingWreckConfigData
         CarBatteryWrecks = new array<string>();
         TruckBatteryWrecks = new array<string>();
         GlowPlugWrecks = new array<string>();
+        HelicopterBatteryWrecks = new array<string>();
+        HydraulicHosesWrecks = new array<string>();
+        IgniterPlugWrecks = new array<string>();
 
         LoadDefaults();
     }
@@ -40,6 +46,10 @@ class VehicleSalvagingWreckConfigData
         AddLightDieselWrecks(GlowPlugWrecks);
         AddLightVanWrecks(GlowPlugWrecks);
         AddHeavyDieselWrecks(GlowPlugWrecks);
+
+        AddHeliCrashWrecks(HelicopterBatteryWrecks);
+        AddHeliCrashWrecks(HydraulicHosesWrecks);
+        AddHeliCrashWrecks(IgniterPlugWrecks);
     }
 
     protected void ClearAll()
@@ -49,6 +59,9 @@ class VehicleSalvagingWreckConfigData
         CarBatteryWrecks.Clear();
         TruckBatteryWrecks.Clear();
         GlowPlugWrecks.Clear();
+        HelicopterBatteryWrecks.Clear();
+        HydraulicHosesWrecks.Clear();
+        IgniterPlugWrecks.Clear();
     }
 
     protected void AddPassengerGasolineWrecks(array<string> wrecks)
@@ -165,6 +178,16 @@ class VehicleSalvagingWreckConfigData
         wrecks.Insert("land_wreck_truck02_aban2_orange");
         wrecks.Insert("land_wreck_v3s_de");
     }
+
+    protected static void AddHeliCrashWrecks(array<string> wrecks)
+    {
+        wrecks.Insert("wreck_uh1y");
+        wrecks.Insert("wreck_uh1y_de");
+        wrecks.Insert("wreck_mi8");
+        wrecks.Insert("wreck_mi8_de");
+        wrecks.Insert("wreck_mi8_crashed");
+        wrecks.Insert("wreck_mi8_crashed_de");
+    }
 }
 
 class VehicleSalvagingWreckConfig
@@ -233,11 +256,36 @@ class VehicleSalvagingWreckConfig
         if (!m_Config.GlowPlugWrecks)
             m_Config.GlowPlugWrecks = new array<string>();
 
+        if (!m_Config.HelicopterBatteryWrecks)
+        {
+            m_Config.HelicopterBatteryWrecks = new array<string>();
+            AddDefaultHeliCrashWrecks(m_Config.HelicopterBatteryWrecks);
+        }
+
+        if (!m_Config.HydraulicHosesWrecks)
+        {
+            m_Config.HydraulicHosesWrecks = new array<string>();
+            AddDefaultHeliCrashWrecks(m_Config.HydraulicHosesWrecks);
+        }
+
+        if (!m_Config.IgniterPlugWrecks)
+        {
+            m_Config.IgniterPlugWrecks = new array<string>();
+            AddDefaultHeliCrashWrecks(m_Config.IgniterPlugWrecks);
+        }
+
         NormalizeWreckList(m_Config.SparkPlugWrecks);
         NormalizeWreckList(m_Config.RadiatorWrecks);
         NormalizeWreckList(m_Config.CarBatteryWrecks);
         NormalizeWreckList(m_Config.TruckBatteryWrecks);
         NormalizeWreckList(m_Config.GlowPlugWrecks);
+        NormalizeWreckList(m_Config.HelicopterBatteryWrecks);
+        NormalizeWreckList(m_Config.HydraulicHosesWrecks);
+        NormalizeWreckList(m_Config.IgniterPlugWrecks);
+
+        EnsureDefaultHeliCrashWrecks(m_Config.HelicopterBatteryWrecks);
+        EnsureDefaultHeliCrashWrecks(m_Config.HydraulicHosesWrecks);
+        EnsureDefaultHeliCrashWrecks(m_Config.IgniterPlugWrecks);
     }
 
     protected static void NormalizeWreckList(array<string> wrecks)
@@ -257,5 +305,44 @@ class VehicleSalvagingWreckConfig
                 wrecks.Set(i, wreckType);
             }
         }
+    }
+
+    protected static void AddDefaultHeliCrashWrecks(array<string> wrecks)
+    {
+        AddHeliCrashWreckNames(wrecks);
+    }
+
+    protected static void EnsureDefaultHeliCrashWrecks(array<string> wrecks)
+    {
+        EnsureWreckName(wrecks, "wreck_uh1y");
+        EnsureWreckName(wrecks, "wreck_uh1y_de");
+        EnsureWreckName(wrecks, "wreck_mi8");
+        EnsureWreckName(wrecks, "wreck_mi8_de");
+        EnsureWreckName(wrecks, "wreck_mi8_crashed");
+        EnsureWreckName(wrecks, "wreck_mi8_crashed_de");
+    }
+
+    protected static void EnsureWreckName(array<string> wrecks, string wreckType)
+    {
+        if (!wrecks)
+            return;
+
+        for (int i = 0; i < wrecks.Count(); i++)
+        {
+            if (wrecks.Get(i) == wreckType)
+                return;
+        }
+
+        wrecks.Insert(wreckType);
+    }
+
+    protected static void AddHeliCrashWreckNames(array<string> wrecks)
+    {
+        wrecks.Insert("wreck_uh1y");
+        wrecks.Insert("wreck_uh1y_de");
+        wrecks.Insert("wreck_mi8");
+        wrecks.Insert("wreck_mi8_de");
+        wrecks.Insert("wreck_mi8_crashed");
+        wrecks.Insert("wreck_mi8_crashed_de");
     }
 }

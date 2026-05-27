@@ -7,6 +7,9 @@ class VehicleSalvagingConfigData
     float CarBatteryChance;
     float TruckBatteryChance;
     float GlowPlugChance;
+    float HelicopterBatteryChance;
+    float HydraulicHosesChance;
+    float IgniterPlugChance;
 
     int BestPartHealthLevel;
     int WorstPartHealthLevel;
@@ -16,6 +19,9 @@ class VehicleSalvagingConfigData
     bool EnableCarBatterySalvage;
     bool EnableTruckBatterySalvage;
     bool EnableGlowPlugSalvage;
+    bool EnableHelicopterBatterySalvage;
+    bool EnableHydraulicHosesSalvage;
+    bool EnableIgniterPlugSalvage;
 
     void VehicleSalvagingConfigData()
     {
@@ -26,6 +32,9 @@ class VehicleSalvagingConfigData
         CarBatteryChance = 0.15;
         TruckBatteryChance = 0.15;
         GlowPlugChance = 0.15;
+        HelicopterBatteryChance = 0.15;
+        HydraulicHosesChance = 0.15;
+        IgniterPlugChance = 0.15;
 
         BestPartHealthLevel = 0;
         WorstPartHealthLevel = 4;
@@ -35,6 +44,9 @@ class VehicleSalvagingConfigData
         EnableCarBatterySalvage = true;
         EnableTruckBatterySalvage = true;
         EnableGlowPlugSalvage = true;
+        EnableHelicopterBatterySalvage = true;
+        EnableHydraulicHosesSalvage = true;
+        EnableIgniterPlugSalvage = true;
     }
 }
 
@@ -97,6 +109,9 @@ class VehicleSalvagingConfig
         m_Config.CarBatteryChance = ClampChance(m_Config.CarBatteryChance);
         m_Config.TruckBatteryChance = ClampChance(m_Config.TruckBatteryChance);
         m_Config.GlowPlugChance = ClampChance(m_Config.GlowPlugChance);
+        m_Config.HelicopterBatteryChance = ClampChance(m_Config.HelicopterBatteryChance);
+        m_Config.HydraulicHosesChance = ClampChance(m_Config.HydraulicHosesChance);
+        m_Config.IgniterPlugChance = ClampChance(m_Config.IgniterPlugChance);
 
         m_Config.BestPartHealthLevel = ClampHealthLevel(m_Config.BestPartHealthLevel);
         m_Config.WorstPartHealthLevel = ClampHealthLevel(m_Config.WorstPartHealthLevel);
