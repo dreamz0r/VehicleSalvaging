@@ -35,7 +35,7 @@ class ActionSalvageIgniterPlug : ActionVehicleSalvagingBase
         if (GetGame().IsServer() && !VehicleSalvagingConfig.Get().EnableIgniterPlugSalvage)
             return false;
 
-        if (!itemInHands || itemInHands != item || !itemInHands.IsKindOf("LugWrench"))
+        if (!itemInHands || itemInHands != item || !VehicleSalvagingConfig.IsConfiguredTool(itemInHands, VehicleSalvagingConfig.Get().IgniterPlugTool))
             return false;
 
         if (!target)
@@ -110,7 +110,7 @@ class ActionSalvageIgniterPlug : ActionVehicleSalvagingBase
 
             if (!igniterPlug)
             {
-                igniterPlug = EntityAI.Cast(GetGame().CreateObjectEx("ExpansionIgniterPlug", player.GetPosition(), ECE_PLACE_ON_SURFACE));
+                igniterPlug = EntityAI.Cast(GetGame().CreateObjectEx(VehicleSalvagingConfig.Get().IgniterPlugItem, player.GetPosition(), ECE_PLACE_ON_SURFACE));
             }
 
             if (igniterPlug)
@@ -138,7 +138,7 @@ class ActionSalvageIgniterPlug : ActionVehicleSalvagingBase
 
     EntityAI CreateIgniterPlug(PlayerBase player)
     {
-        return player.GetInventory().CreateInInventory("ExpansionIgniterPlug");
+        return player.GetInventory().CreateInInventory(VehicleSalvagingConfig.Get().IgniterPlugItem);
     }
 
     void SendMessageToClient(PlayerBase player, string message)

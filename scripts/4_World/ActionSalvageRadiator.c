@@ -32,10 +32,10 @@ class ActionSalvageRadiator : ActionVehicleSalvagingBase
     {
         ItemBase itemInHands = ItemBase.Cast(player.GetHumanInventory().GetEntityInHands());
 
-        if (!VehicleSalvagingConfig.Get().EnableRadiatorSalvage)
+        if (GetGame().IsServer() && !VehicleSalvagingConfig.Get().EnableRadiatorSalvage)
             return false;
 
-        if (!itemInHands || itemInHands != item || !itemInHands.IsKindOf("PipeWrench"))
+        if (!itemInHands || itemInHands != item || !VehicleSalvagingConfig.IsConfiguredTool(itemInHands, VehicleSalvagingConfig.Get().RadiatorTool))
             return false;
 
         if (!target)
@@ -46,7 +46,7 @@ class ActionSalvageRadiator : ActionVehicleSalvagingBase
         if (!targetObject || !IsVanillaVehicleWreck(targetObject.GetType()))
             return false;
 
-        if (IsWreckOnCooldown(target))
+        if (GetGame().IsServer() && IsWreckOnCooldown(target))
         {
             SendAlreadySearchedMessage(player, "This wreck has already been searched for a radiator.");
             return false;
@@ -107,11 +107,12 @@ class ActionSalvageRadiator : ActionVehicleSalvagingBase
 
         if (chance <= VehicleSalvagingConfig.Get().RadiatorChance)
         {
-            EntityAI radiator = player.GetInventory().CreateInInventory("CarRadiator");
+            string radiatorType = VehicleSalvagingConfig.Get().RadiatorItem;
+            EntityAI radiator = player.GetInventory().CreateInInventory(radiatorType);
 
             if (!radiator)
             {
-                radiator = EntityAI.Cast(GetGame().CreateObjectEx("CarRadiator", player.GetPosition(), ECE_PLACE_ON_SURFACE));
+                radiator = EntityAI.Cast(GetGame().CreateObjectEx(radiatorType, player.GetPosition(), ECE_PLACE_ON_SURFACE));
             }
 
             if (radiator)

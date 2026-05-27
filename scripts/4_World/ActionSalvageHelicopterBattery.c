@@ -35,7 +35,7 @@ class ActionSalvageHelicopterBattery : ActionVehicleSalvagingBase
         if (GetGame().IsServer() && !VehicleSalvagingConfig.Get().EnableHelicopterBatterySalvage)
             return false;
 
-        if (!itemInHands || itemInHands != item || !itemInHands.IsKindOf("Pliers"))
+        if (!itemInHands || itemInHands != item || !VehicleSalvagingConfig.IsConfiguredTool(itemInHands, VehicleSalvagingConfig.Get().HelicopterBatteryTool))
             return false;
 
         if (!target)
@@ -106,11 +106,12 @@ class ActionSalvageHelicopterBattery : ActionVehicleSalvagingBase
 
         if (chance <= VehicleSalvagingConfig.Get().HelicopterBatteryChance)
         {
-            EntityAI battery = player.GetInventory().CreateInInventory("ExpansionHelicopterBattery");
+            string batteryType = VehicleSalvagingConfig.Get().HelicopterBatteryItem;
+            EntityAI battery = player.GetInventory().CreateInInventory(batteryType);
 
             if (!battery)
             {
-                battery = EntityAI.Cast(GetGame().CreateObjectEx("ExpansionHelicopterBattery", player.GetPosition(), ECE_PLACE_ON_SURFACE));
+                battery = EntityAI.Cast(GetGame().CreateObjectEx(batteryType, player.GetPosition(), ECE_PLACE_ON_SURFACE));
             }
 
             if (battery)

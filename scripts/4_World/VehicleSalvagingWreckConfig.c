@@ -202,11 +202,23 @@ class VehicleSalvagingWreckConfig
         return m_Config;
     }
 
+    static void Set(VehicleSalvagingWreckConfigData config)
+    {
+        if (!config)
+            return;
+
+        m_Config = config;
+        Validate();
+    }
+
     static void Load()
     {
-        EnsureConfigFolder();
-
         m_Config = new VehicleSalvagingWreckConfigData();
+
+        if (!GetGame().IsServer())
+            return;
+
+        EnsureConfigFolder();
 
         if (FileExist(GetConfigFile()))
         {
@@ -219,6 +231,9 @@ class VehicleSalvagingWreckConfig
 
     static void Save()
     {
+        if (!GetGame().IsServer())
+            return;
+
         EnsureConfigFolder();
         JsonFileLoader<VehicleSalvagingWreckConfigData>.JsonSaveFile(GetConfigFile(), m_Config);
     }

@@ -32,10 +32,10 @@ class ActionSalvageTruckBattery : ActionVehicleSalvagingBase
     {
         ItemBase itemInHands = ItemBase.Cast(player.GetHumanInventory().GetEntityInHands());
 
-        if (!VehicleSalvagingConfig.Get().EnableTruckBatterySalvage)
+        if (GetGame().IsServer() && !VehicleSalvagingConfig.Get().EnableTruckBatterySalvage)
             return false;
 
-        if (!itemInHands || itemInHands != item || !itemInHands.IsKindOf("Pliers"))
+        if (!itemInHands || itemInHands != item || !VehicleSalvagingConfig.IsConfiguredTool(itemInHands, VehicleSalvagingConfig.Get().TruckBatteryTool))
             return false;
 
         if (!target)
@@ -46,7 +46,7 @@ class ActionSalvageTruckBattery : ActionVehicleSalvagingBase
         if (!targetObject || !IsHeavyVehicleWreck(targetObject.GetType()))
             return false;
 
-        if (IsWreckOnCooldown(target))
+        if (GetGame().IsServer() && IsWreckOnCooldown(target))
         {
             SendAlreadySearchedMessage(player, "This wreck has already been searched for a truck battery.");
             return false;
@@ -107,11 +107,12 @@ class ActionSalvageTruckBattery : ActionVehicleSalvagingBase
 
         if (chance <= VehicleSalvagingConfig.Get().TruckBatteryChance)
         {
-            EntityAI truckBattery = player.GetInventory().CreateInInventory("TruckBattery");
+            string truckBatteryType = VehicleSalvagingConfig.Get().TruckBatteryItem;
+            EntityAI truckBattery = player.GetInventory().CreateInInventory(truckBatteryType);
 
             if (!truckBattery)
             {
-                truckBattery = EntityAI.Cast(GetGame().CreateObjectEx("TruckBattery", player.GetPosition(), ECE_PLACE_ON_SURFACE));
+                truckBattery = EntityAI.Cast(GetGame().CreateObjectEx(truckBatteryType, player.GetPosition(), ECE_PLACE_ON_SURFACE));
             }
 
             if (truckBattery)

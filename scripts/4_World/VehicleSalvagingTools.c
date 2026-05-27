@@ -1,43 +1,24 @@
-modded class PipeWrench
+modded class PlayerBase
 {
-    override void SetActions()
+    override void OnRPC(PlayerIdentity sender, int rpc_type, ParamsReadContext ctx)
     {
-        super.SetActions();
+        if (VehicleSalvagingConfigSync.HandleRPC(rpc_type, ctx))
+            return;
 
-        AddAction(ActionSalvageRadiator);
+        super.OnRPC(sender, rpc_type, ctx);
     }
-}
 
-modded class Pliers
-{
-    override void SetActions()
+    override void SetActions(out TInputActionMap InputActionMap)
     {
-        super.SetActions();
+        super.SetActions(InputActionMap);
 
-        AddAction(ActionSalvageBattery);
-        AddAction(ActionSalvageTruckBattery);
-        AddAction(ActionSalvageHelicopterBattery);
-    }
-}
-
-modded class LugWrench
-{
-    override void SetActions()
-    {
-        super.SetActions();
-
-        AddAction(ActionSalvageGlowPlug);
-        AddAction(ActionSalvageSparkPlug);
-        AddAction(ActionSalvageIgniterPlug);
-    }
-}
-
-modded class Wrench
-{
-    override void SetActions()
-    {
-        super.SetActions();
-
-        AddAction(ActionSalvageHydraulicHoses);
+        AddAction(ActionSalvageSparkPlug, InputActionMap);
+        AddAction(ActionSalvageRadiator, InputActionMap);
+        AddAction(ActionSalvageBattery, InputActionMap);
+        AddAction(ActionSalvageTruckBattery, InputActionMap);
+        AddAction(ActionSalvageGlowPlug, InputActionMap);
+        AddAction(ActionSalvageHelicopterBattery, InputActionMap);
+        AddAction(ActionSalvageHydraulicHoses, InputActionMap);
+        AddAction(ActionSalvageIgniterPlug, InputActionMap);
     }
 }

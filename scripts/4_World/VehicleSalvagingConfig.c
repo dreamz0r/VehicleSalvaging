@@ -23,6 +23,24 @@ class VehicleSalvagingConfigData
     bool EnableHydraulicHosesSalvage;
     bool EnableIgniterPlugSalvage;
 
+    string SparkPlugTool;
+    string RadiatorTool;
+    string CarBatteryTool;
+    string TruckBatteryTool;
+    string GlowPlugTool;
+    string HelicopterBatteryTool;
+    string HydraulicHosesTool;
+    string IgniterPlugTool;
+
+    string SparkPlugItem;
+    string RadiatorItem;
+    string CarBatteryItem;
+    string TruckBatteryItem;
+    string GlowPlugItem;
+    string HelicopterBatteryItem;
+    string HydraulicHosesItem;
+    string IgniterPlugItem;
+
     void VehicleSalvagingConfigData()
     {
         CooldownSeconds = 7200;
@@ -47,6 +65,24 @@ class VehicleSalvagingConfigData
         EnableHelicopterBatterySalvage = true;
         EnableHydraulicHosesSalvage = true;
         EnableIgniterPlugSalvage = true;
+
+        SparkPlugTool = "LugWrench";
+        RadiatorTool = "PipeWrench";
+        CarBatteryTool = "Pliers";
+        TruckBatteryTool = "Pliers";
+        GlowPlugTool = "LugWrench";
+        HelicopterBatteryTool = "Pliers";
+        HydraulicHosesTool = "Wrench";
+        IgniterPlugTool = "LugWrench";
+
+        SparkPlugItem = "SparkPlug";
+        RadiatorItem = "CarRadiator";
+        CarBatteryItem = "CarBattery";
+        TruckBatteryItem = "TruckBattery";
+        GlowPlugItem = "GlowPlug";
+        HelicopterBatteryItem = "ExpansionHelicopterBattery";
+        HydraulicHosesItem = "ExpansionHydraulicHoses";
+        IgniterPlugItem = "ExpansionIgniterPlug";
     }
 }
 
@@ -62,11 +98,23 @@ class VehicleSalvagingConfig
         return m_Config;
     }
 
+    static void Set(VehicleSalvagingConfigData config)
+    {
+        if (!config)
+            return;
+
+        m_Config = config;
+        Validate();
+    }
+
     static void Load()
     {
-        EnsureConfigFolder();
-
         m_Config = new VehicleSalvagingConfigData();
+
+        if (!GetGame().IsServer())
+            return;
+
+        EnsureConfigFolder();
 
         if (FileExist(GetConfigFile()))
         {
@@ -79,6 +127,9 @@ class VehicleSalvagingConfig
 
     static void Save()
     {
+        if (!GetGame().IsServer())
+            return;
+
         EnsureConfigFolder();
         JsonFileLoader<VehicleSalvagingConfigData>.JsonSaveFile(GetConfigFile(), m_Config);
     }
@@ -122,6 +173,42 @@ class VehicleSalvagingConfig
             m_Config.BestPartHealthLevel = m_Config.WorstPartHealthLevel;
             m_Config.WorstPartHealthLevel = previousBest;
         }
+
+        m_Config.SparkPlugTool = EnsureString(m_Config.SparkPlugTool, "LugWrench");
+        m_Config.RadiatorTool = EnsureString(m_Config.RadiatorTool, "PipeWrench");
+        m_Config.CarBatteryTool = EnsureString(m_Config.CarBatteryTool, "Pliers");
+        m_Config.TruckBatteryTool = EnsureString(m_Config.TruckBatteryTool, "Pliers");
+        m_Config.GlowPlugTool = EnsureString(m_Config.GlowPlugTool, "LugWrench");
+        m_Config.HelicopterBatteryTool = EnsureString(m_Config.HelicopterBatteryTool, "Pliers");
+        m_Config.HydraulicHosesTool = EnsureString(m_Config.HydraulicHosesTool, "Wrench");
+        m_Config.IgniterPlugTool = EnsureString(m_Config.IgniterPlugTool, "LugWrench");
+
+        m_Config.SparkPlugItem = EnsureString(m_Config.SparkPlugItem, "SparkPlug");
+        m_Config.RadiatorItem = EnsureString(m_Config.RadiatorItem, "CarRadiator");
+        m_Config.CarBatteryItem = EnsureString(m_Config.CarBatteryItem, "CarBattery");
+        m_Config.TruckBatteryItem = EnsureString(m_Config.TruckBatteryItem, "TruckBattery");
+        m_Config.GlowPlugItem = EnsureString(m_Config.GlowPlugItem, "GlowPlug");
+        m_Config.HelicopterBatteryItem = EnsureString(m_Config.HelicopterBatteryItem, "ExpansionHelicopterBattery");
+        m_Config.HydraulicHosesItem = EnsureString(m_Config.HydraulicHosesItem, "ExpansionHydraulicHoses");
+        m_Config.IgniterPlugItem = EnsureString(m_Config.IgniterPlugItem, "ExpansionIgniterPlug");
+    }
+
+    protected static string EnsureString(string value, string defaultValue)
+    {
+        value.TrimInPlace();
+
+        if (value == "")
+            return defaultValue;
+
+        return value;
+    }
+
+    static bool IsConfiguredTool(ItemBase item, string toolClassName)
+    {
+        if (!item || toolClassName == "")
+            return false;
+
+        return item.IsKindOf(toolClassName);
     }
 
     protected static float ClampChance(float chance)

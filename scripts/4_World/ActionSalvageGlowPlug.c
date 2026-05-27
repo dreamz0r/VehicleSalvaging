@@ -32,10 +32,10 @@ class ActionSalvageGlowPlug : ActionVehicleSalvagingBase
     {
         ItemBase itemInHands = ItemBase.Cast(player.GetHumanInventory().GetEntityInHands());
 
-        if (!VehicleSalvagingConfig.Get().EnableGlowPlugSalvage)
+        if (GetGame().IsServer() && !VehicleSalvagingConfig.Get().EnableGlowPlugSalvage)
             return false;
 
-        if (!itemInHands || itemInHands != item || !itemInHands.IsKindOf("LugWrench"))
+        if (!itemInHands || itemInHands != item || !VehicleSalvagingConfig.IsConfiguredTool(itemInHands, VehicleSalvagingConfig.Get().GlowPlugTool))
             return false;
 
         if (!target)
@@ -46,7 +46,7 @@ class ActionSalvageGlowPlug : ActionVehicleSalvagingBase
         if (!targetObject || !IsDieselVehicleWreck(targetObject.GetType()))
             return false;
 
-        if (IsWreckOnCooldown(target))
+        if (GetGame().IsServer() && IsWreckOnCooldown(target))
         {
             SendAlreadySearchedMessage(player, "This wreck has already been searched for a glow plug.");
             return false;
@@ -107,11 +107,12 @@ class ActionSalvageGlowPlug : ActionVehicleSalvagingBase
 
         if (chance <= VehicleSalvagingConfig.Get().GlowPlugChance)
         {
-            EntityAI glowPlug = player.GetInventory().CreateInInventory("GlowPlug");
+            string glowPlugType = VehicleSalvagingConfig.Get().GlowPlugItem;
+            EntityAI glowPlug = player.GetInventory().CreateInInventory(glowPlugType);
 
             if (!glowPlug)
             {
-                glowPlug = EntityAI.Cast(GetGame().CreateObjectEx("GlowPlug", player.GetPosition(), ECE_PLACE_ON_SURFACE));
+                glowPlug = EntityAI.Cast(GetGame().CreateObjectEx(glowPlugType, player.GetPosition(), ECE_PLACE_ON_SURFACE));
             }
 
             if (glowPlug)

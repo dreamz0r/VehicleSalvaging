@@ -35,7 +35,7 @@ class ActionSalvageHydraulicHoses : ActionVehicleSalvagingBase
         if (GetGame().IsServer() && !VehicleSalvagingConfig.Get().EnableHydraulicHosesSalvage)
             return false;
 
-        if (!itemInHands || itemInHands != item || !itemInHands.IsKindOf("Wrench"))
+        if (!itemInHands || itemInHands != item || !VehicleSalvagingConfig.IsConfiguredTool(itemInHands, VehicleSalvagingConfig.Get().HydraulicHosesTool))
             return false;
 
         if (!target)
@@ -106,11 +106,12 @@ class ActionSalvageHydraulicHoses : ActionVehicleSalvagingBase
 
         if (chance <= VehicleSalvagingConfig.Get().HydraulicHosesChance)
         {
-            EntityAI hoses = player.GetInventory().CreateInInventory("ExpansionHydraulicHoses");
+            string hosesType = VehicleSalvagingConfig.Get().HydraulicHosesItem;
+            EntityAI hoses = player.GetInventory().CreateInInventory(hosesType);
 
             if (!hoses)
             {
-                hoses = EntityAI.Cast(GetGame().CreateObjectEx("ExpansionHydraulicHoses", player.GetPosition(), ECE_PLACE_ON_SURFACE));
+                hoses = EntityAI.Cast(GetGame().CreateObjectEx(hosesType, player.GetPosition(), ECE_PLACE_ON_SURFACE));
             }
 
             if (hoses)

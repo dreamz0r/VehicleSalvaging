@@ -15,4 +15,10 @@ modded class MissionServer
         super.OnInit();
         VehicleSalvagingServerInit.EnsureProfileFiles();
     }
+
+    override void InvokeOnConnect(PlayerBase player, PlayerIdentity identity)
+    {
+        super.InvokeOnConnect(player, identity);
+        VehicleSalvagingConfigSync.SendToClient(player, identity);
+    }
 }

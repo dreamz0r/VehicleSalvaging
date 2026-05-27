@@ -32,10 +32,10 @@ class ActionSalvageSparkPlug : ActionVehicleSalvagingBase
     {
         ItemBase itemInHands = ItemBase.Cast(player.GetHumanInventory().GetEntityInHands());
 
-        if (!VehicleSalvagingConfig.Get().EnableSparkPlugSalvage)
+        if (GetGame().IsServer() && !VehicleSalvagingConfig.Get().EnableSparkPlugSalvage)
             return false;
 
-        if (!itemInHands || itemInHands != item || !itemInHands.IsKindOf("LugWrench"))
+        if (!itemInHands || itemInHands != item || !VehicleSalvagingConfig.IsConfiguredTool(itemInHands, VehicleSalvagingConfig.Get().SparkPlugTool))
             return false;
 
         if (!target)
@@ -46,7 +46,7 @@ class ActionSalvageSparkPlug : ActionVehicleSalvagingBase
         if (!targetObject || !IsVanillaVehicleWreck(targetObject.GetType()))
             return false;
 
-        if (IsWreckOnCooldown(target))
+        if (GetGame().IsServer() && IsWreckOnCooldown(target))
         {
             SendAlreadySearchedMessage(player, "This wreck has already been searched for a spark plug.");
             return false;
@@ -107,11 +107,12 @@ class ActionSalvageSparkPlug : ActionVehicleSalvagingBase
 
         if (chance <= VehicleSalvagingConfig.Get().SparkPlugChance)
         {
-            EntityAI sparkPlug = player.GetInventory().CreateInInventory("SparkPlug");
+            string sparkPlugType = VehicleSalvagingConfig.Get().SparkPlugItem;
+            EntityAI sparkPlug = player.GetInventory().CreateInInventory(sparkPlugType);
 
             if (!sparkPlug)
             {
-                sparkPlug = EntityAI.Cast(GetGame().CreateObjectEx("SparkPlug", player.GetPosition(), ECE_PLACE_ON_SURFACE));
+                sparkPlug = EntityAI.Cast(GetGame().CreateObjectEx(sparkPlugType, player.GetPosition(), ECE_PLACE_ON_SURFACE));
             }
 
             if (sparkPlug)

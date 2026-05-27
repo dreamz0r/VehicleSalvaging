@@ -17,5 +17,21 @@
     "EnableGlowPlugSalvage": true,
     "EnableHelicopterBatterySalvage": true,
     "EnableHydraulicHosesSalvage": true,
-    "EnableIgniterPlugSalvage": true
+    "EnableIgniterPlugSalvage": true,
+    "SparkPlugTool": "LugWrench",
+    "RadiatorTool": "PipeWrench",
+    "CarBatteryTool": "Pliers",
+    "TruckBatteryTool": "Pliers",
+    "GlowPlugTool": "LugWrench",
+    "HelicopterBatteryTool": "Pliers",
+    "HydraulicHosesTool": "Wrench",
+    "IgniterPlugTool": "LugWrench",
+    "SparkPlugItem": "SparkPlug",
+    "RadiatorItem": "CarRadiator",
+    "CarBatteryItem": "CarBattery",
+    "TruckBatteryItem": "TruckBattery",
+    "GlowPlugItem": "GlowPlug",
+    "HelicopterBatteryItem": "ExpansionHelicopterBattery",
+    "HydraulicHosesItem": "ExpansionHydraulicHoses",
+    "IgniterPlugItem": "ExpansionIgniterPlug"
 }
